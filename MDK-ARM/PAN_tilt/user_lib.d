@@ -1,0 +1,11 @@
+pan_tilt\user_lib.o: ..\algorithm\user_lib.c
+pan_tilt\user_lib.o: ..\algorithm\user_lib.h
+pan_tilt\user_lib.o: ../devices/struct_typedef.h
+pan_tilt\user_lib.o: ../algorithm/Include/arm_math.h
+pan_tilt\user_lib.o: ../Drivers/CMSIS/Include/core_cm4.h
+pan_tilt\user_lib.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+pan_tilt\user_lib.o: ../Drivers/CMSIS/Include/cmsis_version.h
+pan_tilt\user_lib.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+pan_tilt\user_lib.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+pan_tilt\user_lib.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+pan_tilt\user_lib.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -1,0 +1,12 @@
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/list.c
+pan_tilt\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+pan_tilt\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+pan_tilt\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+pan_tilt\list.o: ../Core/Inc/FreeRTOSConfig.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+pan_tilt\list.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
