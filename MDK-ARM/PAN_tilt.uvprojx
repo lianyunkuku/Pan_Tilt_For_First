@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -913,6 +913,21 @@
               <FileType>1</FileType>
               <FilePath>..\User\pid.c</FilePath>
             </File>
+            <File>
+              <FileName>INS_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\INS_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\can_motor.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -927,6 +942,21 @@
               <FileName>user_lib.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\algorithm\user_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_cortexM4lf_math.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\algorithm\arm_cortexM4lf_math.lib</FilePath>
+            </File>
+            <File>
+              <FileName>AHRS.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\algorithm\AHRS.lib</FilePath>
+            </File>
+            <File>
+              <FileName>MahonyAHRS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\MahonyAHRS.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -959,11 +989,6 @@
           <GroupName>bsp</GroupName>
           <Files>
             <File>
-              <FileName>bsp_buzzer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bsp\boards\bsp_buzzer.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\boards\bsp_can.c</FilePath>
@@ -982,16 +1007,6 @@
               <FileName>bsp_imu_pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\boards\bsp_imu_pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bsp\boards\bsp_led.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_rc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bsp\boards\bsp_rc.c</FilePath>
             </File>
             <File>
               <FileName>bsp_spi.c</FileName>

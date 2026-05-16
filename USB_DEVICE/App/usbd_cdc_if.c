@@ -141,7 +141,7 @@ USBD_CDC_ItfTypeDef USBD_Interface_fops_FS =
   CDC_DeInit_FS,
   CDC_Control_FS,
   CDC_Receive_FS,
-  CDC_TransmitCplt_FS
+
 };
 
 /* Private functions ---------------------------------------------------------*/

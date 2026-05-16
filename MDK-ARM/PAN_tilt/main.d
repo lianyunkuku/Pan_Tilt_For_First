@@ -65,3 +65,5 @@ pan_tilt\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 pan_tilt\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 pan_tilt\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pan_tilt\main.o: ../Core/Inc/gpio.h
+pan_tilt\main.o: ../bsp/boards/bsp_delay.h
+pan_tilt\main.o: ../devices/struct_typedef.h

@@ -22,31 +22,20 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 D:\keil project\Pan_Tilt_For_First\MDK-ARM\PAN_tilt.uvprojx
-Project File Date:  05/12/2026
+Project File Date:  05/15/2026
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'PAN_tilt'
-compiling stm32f4xx_hal_timebase_tim.c...
-../Core/Src/stm32f4xx_hal_timebase_tim.c(93): error:  #20: identifier "uwTickPrio" is undefined
-          uwTickPrio = TickPriority;
-../Core/Src/stm32f4xx_hal_timebase_tim.c: 0 warnings, 1 error
-compiling usbd_conf.c...
-../USB_DEVICE/Target/usbd_conf.c(561): error:  #147-D: declaration is incompatible with "USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *, uint8_t, uint8_t *, uint16_t)"  (declared at line 127 of "../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h")
-  USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev, uint8_t ep_addr, uint8_t *pbuf, uint32_t size)
-../USB_DEVICE/Target/usbd_conf.c(581): error:  #147-D: declaration is incompatible with "USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *, uint8_t, uint8_t *, uint16_t)"  (declared at line 132 of "../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h")
-  USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev, uint8_t ep_addr, uint8_t *pbuf, uint32_t size)
-../USB_DEVICE/Target/usbd_conf.c: 0 warnings, 2 errors
-compiling usbd_cdc_if.c...
-../USB_DEVICE/App/usbd_cdc_if.c(144): error:  #146: too many initializer values
-    CDC_TransmitCplt_FS
-../USB_DEVICE/App/usbd_cdc_if.c: 0 warnings, 1 error
-compiling main.c...
-compiling bmi088task.c...
-..\User\bmi088task.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\User\bmi088task.c: 1 warning, 0 errors
-"PAN_tilt\PAN_tilt.axf" - 4 Error(s), 1 Warning(s).
+compiling stm32f4xx_it.c...
+compiling INS_task.c...
+..\User\INS_task.c(139): warning:  #177-D: variable "first_temperate"  was declared but never referenced
+  static uint8_t first_temperate;
+..\User\INS_task.c: 1 warning, 0 errors
+linking...
+Program Size: Code=51140 RO-data=2768 RW-data=372 ZI-data=35804  
+FromELF: creating hex file...
+"PAN_tilt\PAN_tilt.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -69,8 +58,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE@5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

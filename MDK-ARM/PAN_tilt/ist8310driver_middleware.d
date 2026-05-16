@@ -1,5 +1,5 @@
 pan_tilt\ist8310driver_middleware.o: ..\devices\ist8310driver_middleware.c
-pan_tilt\ist8310driver_middleware.o: ..\devices\ist8310driver_middleWare.h
+pan_tilt\ist8310driver_middleware.o: ..\devices\ist8310driver_middleware.h
 pan_tilt\ist8310driver_middleware.o: ..\devices\struct_typedef.h
 pan_tilt\ist8310driver_middleware.o: ../Core/Inc/main.h
 pan_tilt\ist8310driver_middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -40,3 +40,18 @@ pan_tilt\ist8310driver_middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4
 pan_tilt\ist8310driver_middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
 pan_tilt\ist8310driver_middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 pan_tilt\ist8310driver_middleware.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+pan_tilt\ist8310driver_middleware.o: ../Core/Inc/FreeRTOSConfig.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+pan_tilt\ist8310driver_middleware.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+pan_tilt\ist8310driver_middleware.o: ../bsp/boards/bsp_delay.h

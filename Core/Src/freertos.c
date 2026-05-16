@@ -49,6 +49,10 @@
 /* USER CODE END Variables */
 osThreadId bmi088TaskHandle;
 osThreadId usbTaskHandle;
+osThreadId PIDTask03Handle;
+osThreadId can_ConTask04Handle;
+osMessageQId RollQueue02Handle;
+osMessageQId yawQueue03Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -57,6 +61,8 @@ osThreadId usbTaskHandle;
 
 void Bmi088Task(void const * argument);
 void usbTask01(void const * argument);
+void PIDcalcTask03(void const * argument);
+void can_motorTask04(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -99,6 +105,15 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* definition and creation of RollQueue02 */
+  osMessageQDef(RollQueue02, 8, float);
+  RollQueue02Handle = osMessageCreate(osMessageQ(RollQueue02), NULL);
+
+  /* definition and creation of yawQueue03 */
+  osMessageQDef(yawQueue03, 8, float);
+  yawQueue03Handle = osMessageCreate(osMessageQ(yawQueue03), NULL);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -111,6 +126,14 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of usbTask */
   osThreadDef(usbTask, usbTask01, osPriorityRealtime, 0, 3072);
   usbTaskHandle = osThreadCreate(osThread(usbTask), NULL);
+
+  /* definition and creation of PIDTask03 */
+  osThreadDef(PIDTask03, PIDcalcTask03, osPriorityHigh, 0, 512);
+  PIDTask03Handle = osThreadCreate(osThread(PIDTask03), NULL);
+
+  /* definition and creation of can_ConTask04 */
+  osThreadDef(can_ConTask04, can_motorTask04, osPriorityRealtime, 0, 1024);
+  can_ConTask04Handle = osThreadCreate(osThread(can_ConTask04), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -145,7 +168,7 @@ __weak void Bmi088Task(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_usbTask01 */
-void usbTask01(void const * argument)
+__weak void usbTask01(void const * argument)
 {
   /* USER CODE BEGIN usbTask01 */
   /* Infinite loop */
@@ -154,6 +177,42 @@ void usbTask01(void const * argument)
     osDelay(1);
   }
   /* USER CODE END usbTask01 */
+}
+
+/* USER CODE BEGIN Header_PIDcalcTask03 */
+/**
+* @brief Function implementing the PIDTask03 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_PIDcalcTask03 */
+__weak void PIDcalcTask03(void const * argument)
+{
+  /* USER CODE BEGIN PIDcalcTask03 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END PIDcalcTask03 */
+}
+
+/* USER CODE BEGIN Header_can_motorTask04 */
+/**
+* @brief Function implementing the can_ConTask04 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_can_motorTask04 */
+__weak void can_motorTask04(void const * argument)
+{
+  /* USER CODE BEGIN can_motorTask04 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END can_motorTask04 */
 }
 
 /* Private application code --------------------------------------------------*/

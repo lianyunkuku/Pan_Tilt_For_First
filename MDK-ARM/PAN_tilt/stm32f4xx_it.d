@@ -39,3 +39,5 @@ pan_tilt\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
 pan_tilt\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 pan_tilt\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 pan_tilt\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+pan_tilt\stm32f4xx_it.o: ../User/ins_task.h
+pan_tilt\stm32f4xx_it.o: ../devices/struct_typedef.h
