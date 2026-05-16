@@ -22,8 +22,18 @@ static uint8_t yaw_can_send_data[8];
 static CAN_TxHeaderTypeDef ROLL_TX;
 static CAN_TxHeaderTypeDef YAW_TX;
 
+extern uint16_t gimbal_state;		
+extern fp32 lock_angle[2];		
+extern volatile fp32 now_angle[2];		
 motor_data_rx_t roll_data,yaw_data;
-
+pid_type_def Roll_ppid,Roll_spid,Yaw_ppid,Yaw_spid;
+const fp32 roll_pk[3]={0.0f,0.0f,0.0f},
+					 roll_sk[3]={0.0f,0.0f,0.0f},
+					 yaw_pk[3]={0.0f,0.0f,0.0f},
+					 yaw_sk[3]={0.0f,0.0f,0.0f};
+		
+int16_t get_current[2];	
+					 
 void motorData_Init(motor_data_rx_t *ptr){
 	ptr->ecd=0;
 	ptr->last_ecd=0;
@@ -48,15 +58,70 @@ void CAN_send_CMD(uint32_t MOTOR_ID,CAN_TxHeaderTypeDef *TX,uint8_t *tx_buf,int1
 	tx_buf[7]=angle;
 	HAL_CAN_AddTxMessage(&hcan1,TX,tx_buf,&can_mailbox);
 }
-		
+
+void MotorCheck(void){
+	  uint32_t timestamp;
+		timestamp=HAL_GetTick();
+		if(timestamp-roll_data.time_us>=30){
+			roll_data.state=MOTOR_OFFLINE;
+		}
+		if(timestamp-yaw_data.time_us>=30){
+			yaw_data.state=MOTOR_OFFLINE;
+		}
+		if(roll_data.state!=MOTOR_NO_ERROR||yaw_data.state!=MOTOR_NO_ERROR){
+			gimbal_state=GIMBAL_SAFE;
+		}
+}
+	
+
+void PIDcalcTask03(void const * argument)
+{	
+	fp32 set_speed[2],now_speed[2];
+	PID_init(&Roll_ppid,PID_POSITION,roll_pk,560,180);
+	PID_init(&Roll_spid,PID_POSITION,roll_sk,11000,3000);
+	PID_init(&Yaw_ppid,PID_POSITION,yaw_pk,15,5);
+	PID_init(&Yaw_spid,PID_POSITION,yaw_sk,11000,3000);
+  for(;;)
+  {
+		switch(gimbal_state){
+			case GIMBAL_SAFE:
+				break;
+			case GIMBAL_DEBUG:
+				set_speed[0]=PID_calc(&Roll_ppid,now_angle[0],lock_angle[0]);
+			  set_speed[1]=PID_calc(&Yaw_ppid,now_angle[1],lock_angle[1]);
+				now_speed[0]=roll_data.speed_rpm/60.0f*2.0f*PI;
+				now_speed[1]=yaw_data.speed_rpm/60.0f*2.0f*PI;
+				get_current[0]=PID_calc(&Roll_spid,now_speed[0],set_speed[0]);
+			  get_current[1]=PID_calc(&Yaw_spid,now_speed[1],set_speed[1]);
+				break;
+			case GIMBAL_AUTO:
+				break;
+		}
+    vTaskDelay(1);
+  }
+
+}
+
 void can_motorTask04(void const * argument)
 {
+	
   can_filter_init();
 	motorData_Init(&roll_data);
 	motorData_Init(&yaw_data);
+	
   for(;;)
-  {
-		
+  {	
+		MotorCheck();
+		switch(gimbal_state){
+			case GIMBAL_SAFE:
+				break;
+			case GIMBAL_DEBUG:
+				CAN_send_CMD(ROLL_MOTOR_TX,&ROLL_TX,roll_can_send_data,(int16_t)get_current[0]);
+			  CAN_send_CMD(YAW_MOTOR_TX,&YAW_TX,yaw_can_send_data,(int16_t)get_current[1]);
+				break;
+			case GIMBAL_AUTO:
+				break;
+		}	
 		vTaskDelay(1);
   }
 
@@ -81,7 +146,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         {
             get_motor_measure(&yaw_data, rx_data);
 						yaw_data.state=0;
-					roll_data.time_us=HAL_GetTick();
+					  yaw_data.time_us=HAL_GetTick();
             break;
         }
         default:

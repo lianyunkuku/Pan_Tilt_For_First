@@ -11,10 +11,12 @@
 #include "gpio.h"
 #include "freertos.h"
 #include "bsp_can.h"
+#include "pid.h"
+#include "AHRS_middleware.h"
 
 #define ROLL_MOTOR_ID 0x201
 #define ROLL_MOTOR_TX 0x200
-#define YAW_MOTOR_ID_DEFAULT 0x205
+#define YAW_MOTOR_ID_DEFAULT 0x207
 #define YAW_MOTOR_TX 0x1FE
 #define MOTOR_OFFLINE 0xff
 enum GIMBAL_STATE{
@@ -47,5 +49,7 @@ typedef struct motor_data_rx{
 }motor_data_rx_t;
 
 void can_motorTask04(void const * argument);
+void PIDcalcTask03(void const * argument);
+
 
 #endif

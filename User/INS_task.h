@@ -24,7 +24,8 @@
 #ifndef INS_Task_H
 #define INS_Task_H
 #include "struct_typedef.h"
-
+#include "can_motor.h"
+#include "freertos.h"
 
 #define SPI_DMA_GYRO_LENGHT       8
 #define SPI_DMA_ACCEL_LENGHT      9

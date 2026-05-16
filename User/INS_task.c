@@ -158,10 +158,12 @@ static fp32 INS_mag[3] = {0.0f, 0.0f, 0.0f};
 static fp32 INS_quat[4] = {0.0f, 0.0f, 0.0f, 0.0f};
 fp32 INS_angle[3] = {0.0f, 0.0f, 0.0f};      //euler angle, unit rad.Å·À­½Ç µ¥Î» rad
 
+volatile fp32 now_angle[2]={0.0f,0.0f};
 
 uint8_t error;
-
-
+uint8_t lock_flag=1;
+uint16_t gimbal_state=GIMBAL_SAFE;
+fp32 lock_angle[2]={0.0f,0.0f};
 /**
   * @brief          imu task, init bmi088, ist8310, calculate the euler angle
   * @param[in]      pvParameters: NULL
@@ -268,10 +270,13 @@ void Bmi088Task(void const * argument)
 
         AHRS_update(INS_quat, timing_time, INS_gyro, accel_fliter_3, INS_mag);
         get_angle(INS_quat, INS_angle + INS_YAW_ADDRESS_OFFSET, INS_angle + INS_PITCH_ADDRESS_OFFSET, INS_angle + INS_ROLL_ADDRESS_OFFSET);
-
-				for(int i=0;i<3;i++){
-					INS_angle[i]*=(180/PI);
-				}
+				now_angle[0]=INS_angle[2];
+				now_angle[1]=INS_angle[0];
+				//if(gimbal_state==GIMBAL_DEBUG&&lock_flag){
+				//	lock_flag=0;
+				//	lock_angle[0]=INS_angle[2];
+				//	lock_angle[1]=INS_angle[0];
+				//}
         //because no use ist8310 and save time, no use
         if(mag_update_flag & 1 << IMU_DR_SHFITS)
         {

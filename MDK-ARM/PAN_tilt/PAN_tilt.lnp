@@ -57,6 +57,7 @@
 "pan_tilt\bmi088task.o"
 "pan_tilt\pid.o"
 "pan_tilt\ins_task.o"
+"pan_tilt\can_motor.o"
 "pan_tilt\ahrs_middleware.o"
 "pan_tilt\user_lib.o"
 "..\algorithm\arm_cortexM4lf_math.lib"
