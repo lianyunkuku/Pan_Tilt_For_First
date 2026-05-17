@@ -983,6 +983,16 @@
               <FileType>1</FileType>
               <FilePath>..\devices\ist8310driver_middleware.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USB_DEVICE\App\bsp_usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>robot_message.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USB_DEVICE\App\robot_message.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

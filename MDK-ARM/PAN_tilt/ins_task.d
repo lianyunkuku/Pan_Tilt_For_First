@@ -68,6 +68,14 @@ pan_tilt\ins_task.o: ../Core/Inc/gpio.h
 pan_tilt\ins_task.o: ../bsp/boards/bsp_can.h
 pan_tilt\ins_task.o: ..\User\pid.h
 pan_tilt\ins_task.o: ../algorithm/AHRS_middleware.h
+pan_tilt\ins_task.o: ../USB_DEVICE/App/robot_message.h
+pan_tilt\ins_task.o: ../USB_DEVICE/App/bsp_usb.h
+pan_tilt\ins_task.o: ../USB_DEVICE/App/usbd_cdc_if.h
+pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
 pan_tilt\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 pan_tilt\ins_task.o: ../bsp/boards/bsp_imu_pwm.h
 pan_tilt\ins_task.o: ../bsp/boards/bsp_spi.h

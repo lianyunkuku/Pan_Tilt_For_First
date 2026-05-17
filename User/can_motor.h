@@ -13,11 +13,12 @@
 #include "bsp_can.h"
 #include "pid.h"
 #include "AHRS_middleware.h"
+#include "robot_message.h"
 
 #define ROLL_MOTOR_ID 0x201
 #define ROLL_MOTOR_TX 0x200
 #define YAW_MOTOR_ID_DEFAULT 0x207
-#define YAW_MOTOR_TX 0x1FE
+#define YAW_MOTOR_TX 0x1FF
 #define MOTOR_OFFLINE 0xff
 enum GIMBAL_STATE{
 	GIMBAL_SAFE=0x11,
@@ -50,6 +51,5 @@ typedef struct motor_data_rx{
 
 void can_motorTask04(void const * argument);
 void PIDcalcTask03(void const * argument);
-
-
+void usbTask01(void const * argument);
 #endif

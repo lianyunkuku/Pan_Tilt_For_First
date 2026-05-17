@@ -67,3 +67,10 @@ pan_tilt\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 pan_tilt\main.o: ../Core/Inc/gpio.h
 pan_tilt\main.o: ../bsp/boards/bsp_delay.h
 pan_tilt\main.o: ../devices/struct_typedef.h
+pan_tilt\main.o: ../USB_DEVICE/App/bsp_usb.h
+pan_tilt\main.o: ../USB_DEVICE/App/usbd_cdc_if.h
+pan_tilt\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+pan_tilt\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+pan_tilt\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h

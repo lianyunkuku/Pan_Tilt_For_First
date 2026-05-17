@@ -49,3 +49,5 @@ pan_tilt\usbd_cdc_if.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex
 pan_tilt\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 pan_tilt\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 pan_tilt\usbd_cdc_if.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+pan_tilt\usbd_cdc_if.o: ../USB_DEVICE/App/bsp_usb.h
+pan_tilt\usbd_cdc_if.o: ../USB_DEVICE/App/usb_device.h

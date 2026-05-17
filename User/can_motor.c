@@ -27,10 +27,10 @@ extern fp32 lock_angle[2];
 extern volatile fp32 now_angle[2];		
 motor_data_rx_t roll_data,yaw_data;
 pid_type_def Roll_ppid,Roll_spid,Yaw_ppid,Yaw_spid;
-const fp32 roll_pk[3]={0.0f,0.0f,0.0f},
-					 roll_sk[3]={0.0f,0.0f,0.0f},
-					 yaw_pk[3]={0.0f,0.0f,0.0f},
-					 yaw_sk[3]={0.0f,0.0f,0.0f};
+fp32 roll_pk[3]={80.0f,0.10f,200.0f},
+		 roll_sk[3]={900.0f,0.007f,700.0f},
+		 yaw_pk[3]={52.0f,0.025f,0.7f},
+		 yaw_sk[3]={900.0f,0.150f,1.7f};
 		
 int16_t get_current[2];	
 					 
@@ -73,6 +73,26 @@ void MotorCheck(void){
 		}
 }
 	
+void usbTask01(void const * argument)
+{
+	uint8_t tx_buf[20]={0};
+	uint32_t temp=0;
+	tx_buf[16]=0x00;
+	tx_buf[17]=0x00;
+	tx_buf[18]=0x80;
+	tx_buf[19]=0x7f;
+  for(;;)
+  {	
+		*(float *)&tx_buf[0]=lock_angle[0]*180.0f/PI;
+		*(float *)&tx_buf[4]=lock_angle[1]*180.0f/PI;
+		*(float *)&tx_buf[8]=now_angle[0]*180.0f/PI;
+		*(float *)&tx_buf[12]=now_angle[1]*180.0f/PI;
+		usb_data_send(tx_buf,20);
+    osDelay(1);
+  }
+
+}
+
 
 void PIDcalcTask03(void const * argument)
 {	
@@ -80,7 +100,7 @@ void PIDcalcTask03(void const * argument)
 	PID_init(&Roll_ppid,PID_POSITION,roll_pk,560,180);
 	PID_init(&Roll_spid,PID_POSITION,roll_sk,11000,3000);
 	PID_init(&Yaw_ppid,PID_POSITION,yaw_pk,15,5);
-	PID_init(&Yaw_spid,PID_POSITION,yaw_sk,11000,3000);
+	PID_init(&Yaw_spid,PID_POSITION,yaw_sk,25000,15000);
   for(;;)
   {
 		switch(gimbal_state){

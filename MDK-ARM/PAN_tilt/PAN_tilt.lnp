@@ -67,6 +67,8 @@
 "pan_tilt\bmi088middleware.o"
 "pan_tilt\ist8310driver.o"
 "pan_tilt\ist8310driver_middleware.o"
+"pan_tilt\bsp_usb.o"
+"pan_tilt\robot_message.o"
 "pan_tilt\bsp_can.o"
 "pan_tilt\bsp_delay.o"
 "pan_tilt\bsp_flash.o"

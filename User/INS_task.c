@@ -270,7 +270,7 @@ void Bmi088Task(void const * argument)
 
         AHRS_update(INS_quat, timing_time, INS_gyro, accel_fliter_3, INS_mag);
         get_angle(INS_quat, INS_angle + INS_YAW_ADDRESS_OFFSET, INS_angle + INS_PITCH_ADDRESS_OFFSET, INS_angle + INS_ROLL_ADDRESS_OFFSET);
-				now_angle[0]=INS_angle[2];
+				now_angle[0]=INS_angle[1];
 				now_angle[1]=INS_angle[0];
 				//if(gimbal_state==GIMBAL_DEBUG&&lock_flag){
 				//	lock_flag=0;

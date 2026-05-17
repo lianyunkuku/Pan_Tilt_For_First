@@ -69,3 +69,11 @@ pan_tilt\stm32f4xx_it.o: ../Core/Inc/gpio.h
 pan_tilt\stm32f4xx_it.o: ../bsp/boards/bsp_can.h
 pan_tilt\stm32f4xx_it.o: ../User/pid.h
 pan_tilt\stm32f4xx_it.o: ../algorithm/AHRS_middleware.h
+pan_tilt\stm32f4xx_it.o: ../USB_DEVICE/App/robot_message.h
+pan_tilt\stm32f4xx_it.o: ../USB_DEVICE/App/bsp_usb.h
+pan_tilt\stm32f4xx_it.o: ../USB_DEVICE/App/usbd_cdc_if.h
+pan_tilt\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+pan_tilt\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+pan_tilt\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\stm32f4xx_it.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h

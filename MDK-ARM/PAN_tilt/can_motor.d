@@ -67,3 +67,11 @@ pan_tilt\can_motor.o: ../bsp/boards/bsp_can.h
 pan_tilt\can_motor.o: ../devices/struct_typedef.h
 pan_tilt\can_motor.o: ..\User\pid.h
 pan_tilt\can_motor.o: ../algorithm/AHRS_middleware.h
+pan_tilt\can_motor.o: ../USB_DEVICE/App/robot_message.h
+pan_tilt\can_motor.o: ../USB_DEVICE/App/bsp_usb.h
+pan_tilt\can_motor.o: ../USB_DEVICE/App/usbd_cdc_if.h
+pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
