@@ -75,3 +75,4 @@ pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_i
 pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 pan_tilt\can_motor.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+pan_tilt\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

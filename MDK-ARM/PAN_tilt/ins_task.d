@@ -76,6 +76,7 @@ pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_io
 pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 pan_tilt\ins_task.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+pan_tilt\ins_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 pan_tilt\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 pan_tilt\ins_task.o: ../bsp/boards/bsp_imu_pwm.h
 pan_tilt\ins_task.o: ../bsp/boards/bsp_spi.h

@@ -2,6 +2,7 @@
 
 #define get_motor_measure(ptr, data)                                    \
     {                                                                   \
+			  (ptr)->last_rpm = (ptr)->speed_rpm;                             \
         (ptr)->last_ecd = (ptr)->ecd;                                   \
         (ptr)->ecd = (uint16_t)((data)[0] << 8 | (data)[1]);            \
         (ptr)->speed_rpm = (uint16_t)((data)[2] << 8 | (data)[3]);      \
@@ -10,9 +11,6 @@
 			  (ptr)->state = (data)[7];                                       \
     }
 
-		
-		
-		
 
 extern CAN_HandleTypeDef hcan1;
 extern CAN_HandleTypeDef hcan2;
@@ -27,16 +25,18 @@ extern fp32 lock_angle[2];
 extern volatile fp32 now_angle[2];		
 motor_data_rx_t roll_data,yaw_data;
 pid_type_def Roll_ppid,Roll_spid,Yaw_ppid,Yaw_spid;
-fp32 roll_pk[3]={80.0f,0.10f,200.0f},
-		 roll_sk[3]={900.0f,0.007f,700.0f},
-		 yaw_pk[3]={52.0f,0.025f,0.7f},
-		 yaw_sk[3]={900.0f,0.150f,1.7f};
+fp32 roll_pk[3]={80.0f,0.161f,30.0f},
+		 roll_sk[3]={700.0f,0.005f,800.0f},
+		 yaw_pk[3]={90.0f,0.025f,7.0f},
+		 yaw_sk[3]={800.0f,0.150f,170.0f};
 		
 int16_t get_current[2];	
-					 
+bool_t IF_SWITCHED=0;
+		 
 void motorData_Init(motor_data_rx_t *ptr){
 	ptr->ecd=0;
 	ptr->last_ecd=0;
+	ptr->last_rpm=0;
 	ptr->given_current=0;
 	ptr->speed_rpm=0;
 	ptr->state=MOTOR_OFFLINE;
@@ -72,11 +72,30 @@ void MotorCheck(void){
 			gimbal_state=GIMBAL_SAFE;
 		}
 }
-	
+
+void PID_clear_t(void){
+	PID_clear(&Roll_ppid);
+	PID_clear(&Yaw_ppid);
+	PID_clear(&Roll_spid);
+	PID_clear(&Yaw_spid);
+}
+
+fp32 sin_wave(void){
+	static fp32 t = 0.0f;
+	const fp32 dt = 0.001f;
+	const fp32 omega = 4.0f*PI;
+	const float amp = 0.2f;
+	fp32 val=amp*sinf(omega*t);
+	t+=dt;
+	if(t>=0.5f){
+		t=0.0f;
+	}
+	return val;
+}
+
 void usbTask01(void const * argument)
 {
 	uint8_t tx_buf[20]={0};
-	uint32_t temp=0;
 	tx_buf[16]=0x00;
 	tx_buf[17]=0x00;
 	tx_buf[18]=0x80;
@@ -93,28 +112,75 @@ void usbTask01(void const * argument)
 
 }
 
-
+	fp32 err[2],kf[2]={0,0};
 void PIDcalcTask03(void const * argument)
 {	
 	fp32 set_speed[2],now_speed[2];
-	PID_init(&Roll_ppid,PID_POSITION,roll_pk,560,180);
+
+	uint8_t stuck_cnt[2]={0,0};
+	PID_init(&Roll_ppid,PID_POSITION,roll_pk,560,30);
 	PID_init(&Roll_spid,PID_POSITION,roll_sk,11000,3000);
-	PID_init(&Yaw_ppid,PID_POSITION,yaw_pk,15,5);
+	PID_init(&Yaw_ppid,PID_POSITION,yaw_pk,100,5);
 	PID_init(&Yaw_spid,PID_POSITION,yaw_sk,25000,15000);
   for(;;)
   {
 		switch(gimbal_state){
 			case GIMBAL_SAFE:
+				if(IF_SWITCHED){
+					PID_clear_t();
+					IF_SWITCHED=0;
+				}	
 				break;
 			case GIMBAL_DEBUG:
-				set_speed[0]=PID_calc(&Roll_ppid,now_angle[0],lock_angle[0]);
-			  set_speed[1]=PID_calc(&Yaw_ppid,now_angle[1],lock_angle[1]);
-				now_speed[0]=roll_data.speed_rpm/60.0f*2.0f*PI;
-				now_speed[1]=yaw_data.speed_rpm/60.0f*2.0f*PI;
-				get_current[0]=PID_calc(&Roll_spid,now_speed[0],set_speed[0]);
-			  get_current[1]=PID_calc(&Yaw_spid,now_speed[1],set_speed[1]);
+				if(IF_SWITCHED){
+					PID_clear_t();
+					IF_SWITCHED=0;
+				}	
+				lock_angle[0]=lock_angle[1]=sin_wave();
+				for(int i=0;i<2;i++){
+					err[i]=lock_angle[i]-now_angle[i];
+			    /*if(err[i]<=0.003f&&err[i]>=-0.003f){ 
+						err[i]=0;
+						kf[i]=0;
+					}else if(err[i]<=0.09f&&err[i]>=-0.09f){
+						kf[i]=err[i]*(-5000.0f);
+					}else {
+						
+						kf[i]=0;
+					}*/
+				}
+				if(roll_data.speed_rpm<=1&&roll_data.speed_rpm>=-1&&(roll_data.given_current>=10000||roll_data.given_current<=-10000)){
+					stuck_cnt[0]++;
+					if(stuck_cnt[0]>=100){
+						roll_data.state=MOTOR_STUCK;
+						stuck_cnt[0]=0;
+						IF_SWITCHED=1;
+					}
+				}else{
+					stuck_cnt[0]=0;
+				}
+				if(yaw_data.speed_rpm<=1&&yaw_data.speed_rpm>=-1&&(yaw_data.given_current>=10000||yaw_data.given_current<=-10000)){
+					stuck_cnt[1]++;
+					if(stuck_cnt[1]>=100){
+						yaw_data.state=MOTOR_STUCK;
+						stuck_cnt[1]=0;
+						IF_SWITCHED=1;
+					}
+				}else{
+					stuck_cnt[1]=0;
+				}
+				set_speed[0]=PID_calc(&Roll_ppid,0,err[0]);
+			  set_speed[1]=PID_calc(&Yaw_ppid,0,err[1]);
+				now_speed[0]=(0.7*roll_data.speed_rpm+0.3*roll_data.last_rpm)/60.0f*2.0f*PI;
+				now_speed[1]=(0.7*yaw_data.speed_rpm+0.3*yaw_data.last_rpm)/60.0f*2.0f*PI;
+				get_current[0]=PID_calc(&Roll_spid,now_speed[0],set_speed[0])+kf[0];
+			  get_current[1]=PID_calc(&Yaw_spid,now_speed[1],set_speed[1]);//+kf[1];
 				break;
 			case GIMBAL_AUTO:
+				if(IF_SWITCHED){
+					PID_clear_t();
+					IF_SWITCHED=0;
+				}	
 				break;
 		}
     vTaskDelay(1);

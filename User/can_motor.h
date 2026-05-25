@@ -14,7 +14,7 @@
 #include "pid.h"
 #include "AHRS_middleware.h"
 #include "robot_message.h"
-
+#include "math.h"
 #define ROLL_MOTOR_ID 0x201
 #define ROLL_MOTOR_TX 0x200
 #define YAW_MOTOR_ID_DEFAULT 0x207
@@ -42,6 +42,7 @@ enum MOTOR_STATE{
 typedef struct motor_data_rx{
 	  uint16_t ecd;
     int16_t speed_rpm;
+	  int16_t last_rpm;
     int16_t given_current;
     uint8_t temperate;
     int16_t last_ecd;
@@ -53,3 +54,4 @@ void can_motorTask04(void const * argument);
 void PIDcalcTask03(void const * argument);
 void usbTask01(void const * argument);
 #endif
+
