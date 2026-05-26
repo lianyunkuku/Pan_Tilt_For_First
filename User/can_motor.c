@@ -93,9 +93,15 @@ fp32 sin_wave(void){
 	return val;
 }
 
+extern nuc_receive_data_t	nuc_receive_data;
+extern cmd_id_queue_t cmd_id_queue;
+extern nuc_transmit_data_t 	nuc_transmit_data;
+
+extern usb_cdc_data_t usb_cdc_data;
+
 void usbTask01(void const * argument)
-{
-	uint8_t tx_buf[20]={0};
+{ /*******Below is code for VOFA debug*******/
+	/*uint8_t tx_buf[20]={0};
 	tx_buf[16]=0x00;
 	tx_buf[17]=0x00;
 	tx_buf[18]=0x80;
@@ -109,7 +115,40 @@ void usbTask01(void const * argument)
 		usb_data_send(tx_buf,20);
     osDelay(1);
   }
-
+  */
+	/*******************************************/
+	
+	/*****Below is for nuc contact*****/
+	uint16_t nuc_off_cnt=0;
+	cmd_id_init();
+	cmd_id_task_create(GIMBAL_AND_CONFIG_SEND_ID,999);
+	for(;;){
+		
+		if(usb_cdc_data.usb_cdc_rx_flag==1){
+			gimbal_state=GIMBAL_AUTO;
+			IF_SWITCHED=1;
+			nuc_off_cnt=0;
+		}
+		else{
+			nuc_off_cnt++;
+			if(nuc_off_cnt>=1000){
+				gimbal_state=GIMBAL_SAFE;
+				IF_SWITCHED=1; 
+				nuc_off_cnt=0;
+			}
+		}
+		Nuc_data_unpacked();
+		cmd_id_queue_handle();
+		if(nuc_receive_data.aim_data_received.success==1){
+			
+			lock_angle[0]=nuc_receive_data.aim_data_received.pitch;
+			lock_angle[1]=nuc_receive_data.aim_data_received.yaw;
+			
+		}
+		vTaskDelay(1);
+	}
+	
+	/**********************************/
 }
 
 	fp32 err[2],kf[2]={0,0};
@@ -132,14 +171,17 @@ void PIDcalcTask03(void const * argument)
 				}	
 				break;
 			case GIMBAL_DEBUG:
+			case GIMBAL_AUTO:	
 				if(IF_SWITCHED){
 					PID_clear_t();
 					IF_SWITCHED=0;
 				}	
+				
 				lock_angle[0]=lock_angle[1]=sin_wave();
+				
 				for(int i=0;i<2;i++){
 					err[i]=lock_angle[i]-now_angle[i];
-			    /*if(err[i]<=0.003f&&err[i]>=-0.003f){ 
+			    if(err[i]<=0.003f&&err[i]>=-0.003f){ 
 						err[i]=0;
 						kf[i]=0;
 					}else if(err[i]<=0.09f&&err[i]>=-0.09f){
@@ -147,7 +189,7 @@ void PIDcalcTask03(void const * argument)
 					}else {
 						
 						kf[i]=0;
-					}*/
+					}
 				}
 				if(roll_data.speed_rpm<=1&&roll_data.speed_rpm>=-1&&(roll_data.given_current>=10000||roll_data.given_current<=-10000)){
 					stuck_cnt[0]++;
@@ -174,13 +216,10 @@ void PIDcalcTask03(void const * argument)
 				now_speed[0]=(0.7*roll_data.speed_rpm+0.3*roll_data.last_rpm)/60.0f*2.0f*PI;
 				now_speed[1]=(0.7*yaw_data.speed_rpm+0.3*yaw_data.last_rpm)/60.0f*2.0f*PI;
 				get_current[0]=PID_calc(&Roll_spid,now_speed[0],set_speed[0])+kf[0];
-			  get_current[1]=PID_calc(&Yaw_spid,now_speed[1],set_speed[1]);//+kf[1];
+			  get_current[1]=PID_calc(&Yaw_spid,now_speed[1],set_speed[1])+kf[1];
 				break;
-			case GIMBAL_AUTO:
-				if(IF_SWITCHED){
-					PID_clear_t();
-					IF_SWITCHED=0;
-				}	
+
+			default:
 				break;
 		}
     vTaskDelay(1);

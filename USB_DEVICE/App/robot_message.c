@@ -5,7 +5,9 @@ nuc_receive_data_t	nuc_receive_data;
 nuc_transmit_data_t 	nuc_transmit_data={.nuc_start_record.nuc_record_flag=0};
 cmd_id_queue_t cmd_id_queue;
 
+uint8_t NUC_PRESSED_FLAG_FIX=0;
 
+extern volatile fp32 now_angle[2];
 /*************************** SEND ********************************/
 
 void data_update(uint8_t cmd_id)
@@ -40,36 +42,36 @@ void data_update(uint8_t cmd_id)
             break;
         case GIMBAL_AND_CONFIG_SEND_ID:
             /*  Update the value of variables here START*/
-            //nuc_transmit_data.robot_gimbal_data_send.camera_id=0;
+            nuc_transmit_data.robot_gimbal_data_send.camera_id=0;
 						//if(Hero_gimbal.rc_data.rc_rotate>0.5f && MOUSE_RIGHT_PRESSED){
 						//	nuc_transmit_data.robot_gimbal_data_send.is_pressing=1;
 						//}
             //else{
-						//	nuc_transmit_data.robot_gimbal_data_send.is_pressing=0;
+							nuc_transmit_data.robot_gimbal_data_send.is_pressing=0;
 						//}
-           // nuc_transmit_data.robot_gimbal_data_send.pitch=-imu_data.pitch;
-           // nuc_transmit_data.robot_gimbal_data_send.yaw=imu_data.yaw;
-           // nuc_transmit_data.robot_gimbal_data_send.roll=imu_data.roll;
-           // nuc_transmit_data.robot_gimbal_data_send.mode=0;
+            nuc_transmit_data.robot_gimbal_data_send.pitch=-now_angle[0];
+            nuc_transmit_data.robot_gimbal_data_send.yaw=now_angle[1];
+            nuc_transmit_data.robot_gimbal_data_send.roll=0;//imu_data.roll;
+            nuc_transmit_data.robot_gimbal_data_send.mode=0;
             /*  Update the value of variables here END*/
             break;
 				case NUC_START_RECORD:
 						/*update_record_pressed_if here*/ 
-						//if(nuc_transmit_data.nuc_start_record.nuc_record_flag==False){
-						//	nuc_transmit_data.nuc_start_record.nuc_pressed_cnt=0;
-						//	nuc_transmit_data.nuc_start_record.start_record_if=NUC_PRESSED_FLAG;
-						//}
-						//else{
-						//	if(nuc_transmit_data.nuc_start_record.nuc_pressed_cnt<4000){
-						//		nuc_transmit_data.nuc_start_record.start_record_if=False;
-						//	}
-						//	else{
-						//		nuc_transmit_data.nuc_start_record.nuc_record_flag=False;
-						//	}
-						//	if(NUC_PRESSED_FLAG==False){
-						//		nuc_transmit_data.nuc_start_record.nuc_pressed_cnt++;
-						//	}
-						//}
+						if(nuc_transmit_data.nuc_start_record.nuc_record_flag==0){
+							nuc_transmit_data.nuc_start_record.nuc_pressed_cnt=0;
+							nuc_transmit_data.nuc_start_record.start_record_if=NUC_PRESSED_FLAG_FIX;
+						}
+						else{
+							if(nuc_transmit_data.nuc_start_record.nuc_pressed_cnt<4000){
+								nuc_transmit_data.nuc_start_record.start_record_if=0;
+							}
+							else{
+								nuc_transmit_data.nuc_start_record.nuc_record_flag=0;
+							}
+							if(NUC_PRESSED_FLAG_FIX==0){
+								nuc_transmit_data.nuc_start_record.nuc_pressed_cnt++;
+							}
+						}
 						
 						/*update_record_pressed_if here*/
 						break;
